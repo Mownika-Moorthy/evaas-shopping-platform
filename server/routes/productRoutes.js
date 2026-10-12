@@ -14,11 +14,18 @@ import { adminOnly } from '../middleware/adminMiddleware.js';
 
 const router = express.Router();
 
-// Setup Multer for product image uploads
-const uploadDir = './uploads/products';
+
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const uploadDir = path.resolve(__dirname, '../uploads/products');
+
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
 }
+
 
 const storage = multer.diskStorage({
   destination(req, file, cb) {
