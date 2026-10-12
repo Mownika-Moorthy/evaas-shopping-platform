@@ -1,0 +1,12 @@
+{
+  "name": "evaas-shopping-platform",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Evaas Shopping Platform Workspace",
+  "scripts": {
+    "server": "npm run dev --prefix server",
+    "customer": "npm run dev --prefix customer-app",
+    "admin": "npm run dev --prefix admin-app",
+    "start": "npm run dev --prefix server"
+  }
+}

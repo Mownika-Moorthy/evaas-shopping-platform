@@ -1,0 +1,6 @@
+/* Custom styles for application components */
+.app-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
