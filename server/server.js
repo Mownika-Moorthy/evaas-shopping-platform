@@ -159,3 +159,10 @@ app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT} [${process.env.NODE_ENV || 'development'}]`);
   console.log(`💳 Razorpay: ${process.env.RAZORPAY_KEY_ID?.includes('mock') ? '⚠️  MOCK MODE' : '✅ TEST/LIVE — ' + process.env.RAZORPAY_KEY_ID}`);
 });
+
+
+app.get('/', (req, res) => {
+  res.status(200).json({
+    message: 'Evaas Womenswear API is running successfully!'
+  });
+});
