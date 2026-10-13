@@ -25,10 +25,27 @@ cloudinary.config({
  */
 export const uploadToCloudinary = (buffer, folder = 'evaas/uploads') => {
   return new Promise((resolve, reject) => {
+    const cloudName = process.env.CLOUDINARY_CLOUD_NAME;
+    const apiKey = process.env.CLOUDINARY_API_KEY;
+    const apiSecret = process.env.CLOUDINARY_API_SECRET;
+
+    if (!cloudName || !apiKey || !apiSecret) {
+      return reject(new Error('Cloudinary credentials (CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET) are missing.'));
+    }
+
+    cloudinary.config({
+      cloud_name: cloudName,
+      api_key:    apiKey,
+      api_secret: apiSecret,
+    });
+
     const stream = cloudinary.uploader.upload_stream(
       { folder, resource_type: 'image' },
       (error, result) => {
-        if (error) return reject(error);
+        if (error) {
+          console.error('Cloudinary upload error:', error);
+          return reject(new Error(`Cloudinary upload failed: ${error.message}`));
+        }
         resolve(result.secure_url);
       }
     );
