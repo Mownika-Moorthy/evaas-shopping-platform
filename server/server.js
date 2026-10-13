@@ -109,14 +109,17 @@ app.use('/api/payment/webhook', express.raw({ type: 'application/json' }), (req,
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// ── Static Files ───────────────────────────────────────────────────────────────
-const __dirname = path.resolve();
-const uploadDir = path.join(__dirname, 'uploads', 'products');
-if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir, { recursive: true });
+// ── Static Files (local dev only) ─────────────────────────────────────────────
+// Vercel's filesystem is read-only; uploads go to Cloudinary in production.
+// Only attempt to serve local /uploads when running outside of Vercel.
+if (!process.env.VERCEL) {
+  const __dirname = path.resolve();
+  const uploadDir = path.join(__dirname, 'uploads', 'products');
+  if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir, { recursive: true });
+  }
+  app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 }
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-app.use('/uploads/categories', express.static(path.join(__dirname, 'uploads', 'categories')));
 
 // ── Route Registrations ────────────────────────────────────────────────────────
 app.use('/api/auth',       authRoutes);
