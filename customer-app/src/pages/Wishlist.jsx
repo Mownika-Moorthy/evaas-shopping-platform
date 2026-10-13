@@ -4,7 +4,7 @@ import { WishlistContext } from '../context/WishlistContext';
 import { CartContext } from '../context/CartContext';
 import { useNotification } from '../context/NotificationContext';
 import { Heart, ShoppingBag, Trash2, ArrowRight } from 'lucide-react';
-import { API_URL } from '../config';
+import { API_URL, getImageUrl } from '../config';
 
 const Wishlist = () => {
   const { wishlist, removeFromWishlist, clearWishlist } = useContext(WishlistContext);
@@ -93,9 +93,7 @@ const Wishlist = () => {
       ) : (
         <div className="grid-4">
           {wishlist.map((product) => {
-            const imageUrl = product.images && product.images.length > 0
-              ? `${backendUrl}${product.images[0]}`
-              : 'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&q=80&w=400';
+            const imageUrl = getImageUrl(product.images?.[0]);
 
             return (
               <div key={product._id} className="card" style={{ display: 'flex', flexDirection: 'column', height: '100%', position: 'relative' }}>

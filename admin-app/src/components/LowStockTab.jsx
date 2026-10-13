@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Bell, AlertTriangle, PackageX, Package, Settings, RefreshCw } from 'lucide-react';
 import { getLowStockAlerts } from '../services/adminService';
+import { getImageUrl } from '../config';
 
 /**
  * LowStockTab — Low Stock Alert System
@@ -196,7 +197,7 @@ const LowStockTab = ({ showToast, backendUrl }) => {
                       <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                         <div style={{ width: '40px', height: '48px', borderRadius: '6px', overflow: 'hidden', backgroundColor: '#f9fafb', flexShrink: 0 }}>
                           {prod.image
-                            ? <img src={`${backendUrl}${prod.image}`} alt={prod.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                            ? <img src={getImageUrl(prod.image)} alt={prod.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                             : <Package size={16} color="#d1d5db" style={{ margin: '16px auto', display: 'block' }} />
                           }
                         </div>

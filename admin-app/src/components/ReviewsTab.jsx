@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Trash2, Star, MessageSquare } from 'lucide-react';
 import { getAllReviewsAdmin, deleteReviewAdmin } from '../services/orderService';
+import { getImageUrl } from '../config';
 
 const ReviewsTab = ({ showToast, confirmDialog, backendUrl }) => {
   const [reviews, setReviews] = useState([]);
@@ -53,7 +54,7 @@ const ReviewsTab = ({ showToast, confirmDialog, backendUrl }) => {
               {/* Product image */}
               <div style={{ width: '50px', height: '60px', borderRadius: '8px', overflow: 'hidden', backgroundColor: '#f3f4f6', flexShrink: 0 }}>
                 {rev.productId?.images?.[0]
-                  ? <img src={`${backendUrl}${rev.productId.images[0]}`} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  ? <img src={getImageUrl(rev.productId.images[0])} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   : null
                 }
               </div>

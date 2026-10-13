@@ -1,15 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Trash2 } from 'lucide-react';
-import { API_URL } from '../config';
+import { API_URL, getImageUrl } from '../config';
 
 const CartItem = ({ item, onUpdateQty, onRemove, backendUrl = API_URL }) => {
   const product = item.productId;
   if (!product) return null;
 
-  const imageUrl = product.images && product.images.length > 0
-    ? `${backendUrl}${product.images[0]}`
-    : 'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&q=80&w=200';
+  const imageUrl = getImageUrl(product.images?.[0], 'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&q=80&w=200');
 
   const formatPrice = (p) => `₹${Number(p).toLocaleString('en-IN')}`;
 

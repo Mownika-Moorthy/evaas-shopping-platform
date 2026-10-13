@@ -9,7 +9,7 @@ import { Star, ShoppingBag, CreditCard, ChevronRight, Check, Heart, ArrowLeft, R
 import SizeChartModal from '../components/SizeChartModal';
 import { useFestival } from '../context/FestivalContext';
 import { useNotification } from '../context/NotificationContext';
-import { API_URL } from '../config';
+import { API_URL, getImageUrl } from '../config';
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -236,7 +236,7 @@ const ProductDetails = () => {
   }
 
   const images = product.images && product.images.length > 0
-    ? product.images.map(img => `${backendUrl}${img}`)
+    ? product.images.map(img => getImageUrl(img, 'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&q=80&w=800'))
     : ['https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&q=80&w=800'];
 
   const isFavorited = isInWishlist(product._id);

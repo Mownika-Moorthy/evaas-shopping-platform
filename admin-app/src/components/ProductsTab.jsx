@@ -4,6 +4,7 @@ import { getAdminProducts } from '../services/adminService';
 import { getCategories } from '../services/adminService';
 import { createProduct, updateProduct, deleteProduct } from '../services/productService';
 import api from '../services/api';
+import { getImageUrl } from '../config';
 
 /**
  * ProductsTab — Full product management with all new fields:
@@ -475,7 +476,7 @@ const ProductsTab = ({ showToast, confirmDialog, backendUrl }) => {
                       <td style={{ padding: '10px 14px' }}>
                         <div style={{ width: '42px', height: '50px', borderRadius: '6px', overflow: 'hidden', backgroundColor: '#f3f4f6' }}>
                           {prod.images?.[0]
-                            ? <img src={`${backendUrl}${prod.images[0]}`} alt={prod.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                            ? <img src={getImageUrl(prod.images[0])} alt={prod.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                             : <Package size={16} color="#d1d5db" style={{ margin: '17px auto', display: 'block' }} />
                           }
                         </div>
@@ -837,7 +838,7 @@ const ProductsTab = ({ showToast, confirmDialog, backendUrl }) => {
                   <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                     {keepImages.map(img => (
                       <div key={img} style={{ position: 'relative', width: '64px', height: '72px' }}>
-                        <img src={`${backendUrl}${img}`} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '8px', border: '1px solid #e5e7eb' }} />
+                        <img src={getImageUrl(img)} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '8px', border: '1px solid #e5e7eb' }} />
                         <button type="button" onClick={() => removeKeepImage(img)} style={{
                           position: 'absolute', top: '-6px', right: '-6px', width: '18px', height: '18px',
                           borderRadius: '50%', backgroundColor: '#dc2626', color: '#fff', border: 'none',

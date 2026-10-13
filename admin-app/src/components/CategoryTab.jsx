@@ -3,6 +3,7 @@ import { Plus, Edit2, Trash2, Check, X, Tag, RefreshCw, Image } from 'lucide-rea
 import {
   getCategories, createCategory, updateCategory, deleteCategory
 } from '../services/adminService';
+import { getImageUrl } from '../config';
 
 /**
  * CategoryTab — Full CRUD for product categories.
@@ -47,7 +48,7 @@ const CategoryTab = ({ showToast, confirmDialog, backendUrl }) => {
     setCatName(cat.name);
     setCatDesc(cat.description || '');
     setCatImage(null);
-    setCatImagePreview(cat.image ? `${backendUrl}${cat.image}` : '');
+    setCatImagePreview(cat.image ? getImageUrl(cat.image) : '');
     setCatActive(cat.isActive);
     setShowForm(true);
   };
@@ -281,7 +282,7 @@ const CategoryTab = ({ showToast, confirmDialog, backendUrl }) => {
               {/* Category image or placeholder */}
               <div style={{ height: '80px', backgroundColor: '#fdf0f2', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', position: 'relative' }}>
                 {cat.image
-                  ? <img src={`${backendUrl}${cat.image}`} alt={cat.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  ? <img src={getImageUrl(cat.image)} alt={cat.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   : <Tag size={32} color="#dba9b0" />
                 }
                 {/* Active badge */}

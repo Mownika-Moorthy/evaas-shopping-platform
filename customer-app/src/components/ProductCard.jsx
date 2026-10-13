@@ -5,7 +5,7 @@ import { CartContext } from '../context/CartContext';
 import { WishlistContext } from '../context/WishlistContext';
 import { useFestival } from '../context/FestivalContext';
 import { useNotification } from '../context/NotificationContext';
-import { API_URL } from '../config';
+import { API_URL, getImageUrl } from '../config';
 
 const ProductCard = ({ product }) => {
   const { addToCart } = useContext(CartContext);
@@ -14,9 +14,7 @@ const ProductCard = ({ product }) => {
   const { showSuccess, showError, showWarning } = useNotification();
   const backendUrl = API_URL;
 
-  const imageUrl = product.images && product.images.length > 0
-    ? `${backendUrl}${product.images[0]}`
-    : 'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&q=80&w=400';
+  const imageUrl = getImageUrl(product.images?.[0]);
 
   // Festival price computation
   const priceInfo = computePrice(product);

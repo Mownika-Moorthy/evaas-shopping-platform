@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Search, RefreshCw, Edit2, Check, X, AlertTriangle, PackageX, Package } from 'lucide-react';
 import { getInventory, updateInventoryStock } from '../services/adminService';
+import { getImageUrl } from '../config';
 
 /**
  * InventoryTab — Dedicated Inventory Management
@@ -231,7 +232,7 @@ const InventoryTab = ({ showToast, backendUrl }) => {
                       <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                         <div style={{ width: '40px', height: '48px', borderRadius: '6px', overflow: 'hidden', backgroundColor: '#f9fafb', flexShrink: 0 }}>
                           {item.image ? (
-                            <img src={`${backendUrl}${item.image}`} alt={item.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                            <img src={getImageUrl(item.image)} alt={item.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                           ) : (
                             <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                               <Package size={16} color="#d1d5db" />

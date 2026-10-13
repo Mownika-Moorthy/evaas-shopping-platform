@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { TrendingDown, Package, RefreshCw, AlertTriangle } from 'lucide-react';
 import { getLeastSellingProducts } from '../services/adminService';
+import { getImageUrl } from '../config';
 
 /**
  * LeastSellingTab — Bottom 10 Least-Selling Products
@@ -94,7 +95,7 @@ const LeastSellingTab = ({ showToast, backendUrl }) => {
                     <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                       <div style={{ width: '40px', height: '48px', borderRadius: '6px', overflow: 'hidden', backgroundColor: '#f9fafb', flexShrink: 0 }}>
                         {prod.image
-                          ? <img src={`${backendUrl}${prod.image}`} alt={prod.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                          ? <img src={getImageUrl(prod.image)} alt={prod.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                           : <Package size={16} color="#d1d5db" style={{ margin: '16px auto', display: 'block' }} />
                         }
                       </div>
