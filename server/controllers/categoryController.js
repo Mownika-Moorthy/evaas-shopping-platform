@@ -1,5 +1,6 @@
 import Category from '../models/Category.js';
 import Product from '../models/Product.js';
+import { uploadToCloudinary } from '../utils/cloudinary.js';
 
 // Default categories to seed on first run
 const DEFAULT_CATEGORIES = [
@@ -65,10 +66,10 @@ export const createCategory = async (req, res) => {
       return res.status(400).json({ message: 'A category with this name already exists' });
     }
 
-    // Handle optional uploaded image
+    // Handle optional uploaded image — upload to Cloudinary (Vercel-safe)
     let imagePath = '';
     if (req.file) {
-      imagePath = `/uploads/categories/${req.file.filename}`;
+      imagePath = await uploadToCloudinary(req.file.buffer, 'evaas/categories');
     }
 
     const category = new Category({
@@ -113,7 +114,7 @@ export const updateCategory = async (req, res) => {
     category.isActive = isActive !== undefined ? isActive : category.isActive;
 
     if (req.file) {
-      category.image = `/uploads/categories/${req.file.filename}`;
+      category.image = await uploadToCloudinary(req.file.buffer, 'evaas/categories');
     }
 
     const updated = await category.save();

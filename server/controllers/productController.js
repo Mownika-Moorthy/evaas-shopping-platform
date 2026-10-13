@@ -1,4 +1,5 @@
 import Product from '../models/Product.js';
+import { uploadToCloudinary } from '../utils/cloudinary.js';
 import Review from '../models/Review.js';
 import Category from '../models/Category.js';
 
@@ -150,12 +151,13 @@ export const createProduct = async (req, res) => {
       return res.status(400).json({ message: 'name, description, category, and price are required.' });
     }
 
-    // Handle multiple uploaded images
+    // Handle multiple uploaded images — upload to Cloudinary (Vercel-safe)
     const imagePaths = [];
     if (req.files && req.files.length > 0) {
-      req.files.forEach(file => {
-        imagePaths.push(`/uploads/products/${file.filename}`);
-      });
+      for (const file of req.files) {
+        const url = await uploadToCloudinary(file.buffer, 'evaas/products');
+        imagePaths.push(url);
+      }
     }
 
     // Parse sizeStock if provided
@@ -306,12 +308,13 @@ export const updateProduct = async (req, res) => {
       }
     }
 
-    // Process new images
+    // Process new images — upload to Cloudinary (Vercel-safe)
     let newImages = [];
     if (req.files && req.files.length > 0) {
-      req.files.forEach(file => {
-        newImages.push(`/uploads/products/${file.filename}`);
-      });
+      for (const file of req.files) {
+        const url = await uploadToCloudinary(file.buffer, 'evaas/products');
+        newImages.push(url);
+      }
     }
 
     // Merge with kept images
