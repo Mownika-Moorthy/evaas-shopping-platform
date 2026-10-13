@@ -1,7 +1,8 @@
+
 import express from 'express';
 import multer from 'multer';
 import path from 'path';
-import fs from 'fs';
+
 import {
   getProducts,
   getProductById,
@@ -9,56 +10,51 @@ import {
   updateProduct,
   deleteProduct
 } from '../controllers/productController.js';
+
 import { protect } from '../middleware/authMiddleware.js';
 import { adminOnly } from '../middleware/adminMiddleware.js';
 
 const router = express.Router();
 
+// Store uploaded files in memory instead of writing to local disk.
+// Persistent image hosting must be configured in the controller.
+const storage = multer.memoryStorage();
 
-import { fileURLToPath } from 'url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-const uploadDir = path.resolve(__dirname, '../uploads/products');
-
-if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir, { recursive: true });
-}
-
-
-const storage = multer.diskStorage({
-  destination(req, file, cb) {
-    cb(null, uploadDir);
-  },
-  filename(req, file, cb) {
-    cb(
-      null,
-      `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`
-    );
-  }
-});
-
+// Validate uploaded image types.
 const checkFileType = (file, cb) => {
-  const filetypes = /jpg|jpeg|png|webp/;
-  const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
-  const mimetype = filetypes.test(file.mimetype);
+  const allowedExtensions = /\.(jpg|jpeg|png|webp)$/i;
+  const allowedMimeTypes = [
+    'image/jpeg',
+    'image/png',
+    'image/webp'
+  ];
 
-  if (extname && mimetype) {
+  const extensionValid = allowedExtensions.test(
+    path.extname(file.originalname)
+  );
+
+  const mimeTypeValid = allowedMimeTypes.includes(file.mimetype);
+
+  if (extensionValid && mimeTypeValid) {
     return cb(null, true);
-  } else {
-    cb(new Error('Images only (jpg, jpeg, png, webp)!'));
   }
+
+  cb(new Error('Images only (jpg, jpeg, png, webp)!'));
 };
 
+// Configure Multer.
 const upload = multer({
   storage,
-  fileFilter: function (req, file, cb) {
+  limits: {
+    fileSize: 5 * 1024 * 1024, // 5 MB per image
+    files: 5
+  },
+  fileFilter(req, file, cb) {
     checkFileType(file, cb);
   }
 });
 
-// Routes
+// Product routes.
 router.route('/')
   .get(getProducts)
   .post(protect, adminOnly, upload.array('images', 5), createProduct);

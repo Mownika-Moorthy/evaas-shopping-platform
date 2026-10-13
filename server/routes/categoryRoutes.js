@@ -1,7 +1,8 @@
+
 import express from 'express';
 import multer from 'multer';
 import path from 'path';
-import fs from 'fs';
+
 import {
   getCategories,
   getCategoryById,
@@ -9,51 +10,65 @@ import {
   updateCategory,
   deleteCategory
 } from '../controllers/categoryController.js';
+
 import { protect } from '../middleware/authMiddleware.js';
 import { adminOnly } from '../middleware/adminMiddleware.js';
 
 const router = express.Router();
 
-// Setup category image upload directory
-import { fileURLToPath } from 'url';
+// Use memory storage instead of creating folders on Vercel.
+const storage = multer.memoryStorage();
 
-// Keep your existing express, multer, path and fs imports.
+const checkFileType = (file, cb) => {
+  const allowedExtensions = /\.(jpg|jpeg|png|webp)$/i;
+  const allowedMimeTypes = [
+    'image/jpeg',
+    'image/png',
+    'image/webp'
+  ];
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+  const extensionValid = allowedExtensions.test(
+    path.extname(file.originalname)
+  );
 
-const uploadDir = path.resolve(__dirname, '../uploads/categories');
+  const mimeTypeValid = allowedMimeTypes.includes(file.mimetype);
 
-if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir, { recursive: true });
-}
-const storage = multer.diskStorage({
-  destination(req, file, cb) {
-    cb(null, uploadDir);
-  },
-  filename(req, file, cb) {
-    cb(null, `category-${Date.now()}${path.extname(file.originalname)}`);
+  if (extensionValid && mimeTypeValid) {
+    return cb(null, true);
   }
-});
+
+  cb(new Error('Images only (jpg, jpeg, png, webp)!'));
+};
 
 const upload = multer({
   storage,
-  fileFilter: (req, file, cb) => {
-    const filetypes = /jpg|jpeg|png|webp/;
-    const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
-    const mimetype = filetypes.test(file.mimetype);
-    if (extname && mimetype) return cb(null, true);
-    cb(new Error('Images only (jpg, jpeg, png, webp)!'));
+  limits: { fileSize: 5 * 1024 * 1024 },
+  fileFilter(req, file, cb) {
+    checkFileType(file, cb);
   }
 });
 
-// Public — get all categories
+// Public routes
 router.get('/', getCategories);
 router.get('/:id', getCategoryById);
 
-// Admin — CRUD
-router.post('/', protect, adminOnly, upload.single('image'), createCategory);
-router.put('/:id', protect, adminOnly, upload.single('image'), updateCategory);
+// Admin routes
+router.post(
+  '/',
+  protect,
+  adminOnly,
+  upload.single('image'),
+  createCategory
+);
+
+router.put(
+  '/:id',
+  protect,
+  adminOnly,
+  upload.single('image'),
+  updateCategory
+);
+
 router.delete('/:id', protect, adminOnly, deleteCategory);
 
 export default router;
