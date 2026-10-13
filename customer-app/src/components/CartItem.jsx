@@ -1,13 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Trash2 } from 'lucide-react';
+import { Trash2, ShoppingBag } from 'lucide-react';
 import { API_URL, getImageUrl } from '../config';
 
 const CartItem = ({ item, onUpdateQty, onRemove, backendUrl = API_URL }) => {
   const product = item.productId;
   if (!product) return null;
 
-  const imageUrl = getImageUrl(product.images?.[0], 'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&q=80&w=200');
+  const imageUrl = getImageUrl(product.images?.[0], '');
 
   const formatPrice = (p) => `₹${Number(p).toLocaleString('en-IN')}`;
 
@@ -18,8 +18,12 @@ const CartItem = ({ item, onUpdateQty, onRemove, backendUrl = API_URL }) => {
       padding: '1.25rem',
       gap: '1.25rem'
     }}>
-      <div style={{ width: '85px', height: '105px', borderRadius: '8px', overflow: 'hidden', backgroundColor: '#eaeaea', flexShrink: 0 }}>
-        <img src={imageUrl} alt={product.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+      <div style={{ width: '85px', height: '105px', borderRadius: '8px', overflow: 'hidden', backgroundColor: '#f8f5f2', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        {imageUrl ? (
+          <img src={imageUrl} alt={product.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+        ) : (
+          <ShoppingBag size={28} strokeWidth={1.5} color="#b76e79" />
+        )}
       </div>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem', flexGrow: 1, overflow: 'hidden' }}>

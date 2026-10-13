@@ -99,18 +99,38 @@ const Wishlist = () => {
               <div key={product._id} className="card" style={{ display: 'flex', flexDirection: 'column', height: '100%', position: 'relative' }}>
                 <div style={{ position: 'relative', overflow: 'hidden', paddingTop: '130%', background: '#eaeaea' }}>
                   <Link to={`/products/${product._id}`}>
-                    <img
-                      src={imageUrl}
-                      alt={product.name}
-                      style={{
+                    {imageUrl ? (
+                      <img
+                        src={imageUrl}
+                        alt={product.name}
+                        style={{
+                          position: 'absolute',
+                          top: 0,
+                          left: 0,
+                          width: '100%',
+                          height: '100%',
+                          objectFit: 'cover'
+                        }}
+                      />
+                    ) : (
+                      <div style={{
                         position: 'absolute',
                         top: 0,
                         left: 0,
                         width: '100%',
                         height: '100%',
-                        objectFit: 'cover'
-                      }}
-                    />
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        backgroundColor: '#f8f5f2',
+                        color: '#8c827a',
+                        gap: '8px'
+                      }}>
+                        <Heart size={28} color="#b76e79" />
+                        <span style={{ fontSize: '0.72rem', fontWeight: '600', letterSpacing: '0.5px', textTransform: 'uppercase', color: '#9c8e82' }}>No Image</span>
+                      </div>
+                    )}
                   </Link>
 
                   <button

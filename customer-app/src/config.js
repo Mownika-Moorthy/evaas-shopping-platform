@@ -13,7 +13,7 @@ export const API_BASE = `${API_URL}/api`;
  * Returns external/Cloudinary URLs (http/https) directly as-is,
  * or prepends the API_URL for relative legacy uploads (/uploads/...).
  */
-export const getImageUrl = (imagePath, fallback = 'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&q=80&w=400') => {
+export const getImageUrl = (imagePath, fallback = '') => {
   if (!imagePath || typeof imagePath !== 'string') return fallback;
   if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
     return imagePath;

@@ -9,7 +9,7 @@ import {
   Star, X, Check, Edit3, MessageSquare
 } from 'lucide-react';
 
-import { API_URL } from '../config';
+import { API_URL, getImageUrl } from '../config';
 
 const BACKEND_URL = API_URL;
 
@@ -495,9 +495,7 @@ const Orders = () => {
                         {selectedOrder.products?.map((item, idx) => {
                           const product = item.productId;
                           if (!product) return null;
-                          const imageUrl = product.images?.length
-                            ? `${BACKEND_URL}${product.images[0]}`
-                            : 'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=150';
+                          const imageUrl = getImageUrl(product.images?.[0], '');
 
                           const existingRev = myReviews.find(
                             (r) => (r.productId?._id || r.productId) === product._id
@@ -513,8 +511,12 @@ const Orders = () => {
                                 flexWrap: 'wrap'
                               }}
                             >
-                              <div style={{ width: '64px', height: '80px', borderRadius: '8px', overflow: 'hidden', backgroundColor: '#eaeaea', flexShrink: 0 }}>
-                                <img src={imageUrl} alt={product.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                              <div style={{ width: '64px', height: '80px', borderRadius: '8px', overflow: 'hidden', backgroundColor: '#f8f5f2', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                {imageUrl ? (
+                                  <img src={imageUrl} alt={product.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                ) : (
+                                  <Package size={22} color="#b76e79" />
+                                )}
                               </div>
 
                               <div style={{ flexGrow: 1, minWidth: '180px' }}>
@@ -656,9 +658,7 @@ const Orders = () => {
                 gap: '1rem'
               }}>
                 {unreviewedProducts.map((prod) => {
-                  const img = prod.images?.length
-                    ? `${BACKEND_URL}${prod.images[0]}`
-                    : 'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=150';
+                  const img = getImageUrl(prod.images?.[0], '');
                   return (
                     <div
                       key={prod._id}
@@ -668,11 +668,17 @@ const Orders = () => {
                         alignItems: 'center', boxShadow: 'var(--shadow-xs)'
                       }}
                     >
-                      <img
-                        src={img}
-                        alt={prod.name}
-                        style={{ width: '50px', height: '65px', borderRadius: '6px', objectFit: 'cover' }}
-                      />
+                      {img ? (
+                        <img
+                          src={img}
+                          alt={prod.name}
+                          style={{ width: '50px', height: '65px', borderRadius: '6px', objectFit: 'cover' }}
+                        />
+                      ) : (
+                        <div style={{ width: '50px', height: '65px', borderRadius: '6px', backgroundColor: '#f8f5f2', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                          <Package size={20} color="#b76e79" />
+                        </div>
+                      )}
                       <div style={{ flexGrow: 1, minWidth: 0 }}>
                         <div style={{ fontWeight: '600', fontSize: '0.85rem', color: 'var(--dark-text)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                           {prod.name}
@@ -729,9 +735,7 @@ const Orders = () => {
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
                 {myReviews.map((rev) => {
                   const prod = rev.productId;
-                  const img = prod?.images?.length
-                    ? `${BACKEND_URL}${prod.images[0]}`
-                    : 'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=150';
+                  const img = getImageUrl(prod?.images?.[0], '');
 
                   return (
                     <div
@@ -747,11 +751,17 @@ const Orders = () => {
                       {/* Product Thumbnail */}
                       {prod && (
                         <Link to={`/product/${prod._id}`}>
-                          <img
-                            src={img}
-                            alt={prod.name || 'Product'}
-                            style={{ width: '60px', height: '75px', borderRadius: '8px', objectFit: 'cover' }}
-                          />
+                          {img ? (
+                            <img
+                              src={img}
+                              alt={prod.name || 'Product'}
+                              style={{ width: '60px', height: '75px', borderRadius: '8px', objectFit: 'cover' }}
+                            />
+                          ) : (
+                            <div style={{ width: '60px', height: '75px', borderRadius: '8px', backgroundColor: '#f8f5f2', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                              <Package size={22} color="#b76e79" />
+                            </div>
+                          )}
                         </Link>
                       )}
 

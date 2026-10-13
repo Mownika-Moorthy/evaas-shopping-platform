@@ -236,8 +236,8 @@ const ProductDetails = () => {
   }
 
   const images = product.images && product.images.length > 0
-    ? product.images.map(img => getImageUrl(img, 'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&q=80&w=800'))
-    : ['https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&q=80&w=800'];
+    ? product.images.map(img => getImageUrl(img, '')).filter(Boolean)
+    : [];
 
   const isFavorited = isInWishlist(product._id);
 
@@ -296,18 +296,38 @@ const ProductDetails = () => {
             boxShadow: 'var(--shadow-md)',
             border: '1px solid var(--light-border)'
           }}>
-            <img
-              src={images[activeImageIndex]}
-              alt={product.name}
-              style={{
+            {images.length > 0 && images[activeImageIndex] ? (
+              <img
+                src={images[activeImageIndex]}
+                alt={product.name}
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover'
+                }}
+              />
+            ) : (
+              <div style={{
                 position: 'absolute',
                 top: 0,
                 left: 0,
                 width: '100%',
                 height: '100%',
-                objectFit: 'cover'
-              }}
-            />
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: '#f8f5f2',
+                color: '#8c827a',
+                gap: '12px'
+              }}>
+                <ShoppingBag size={52} strokeWidth={1.5} color="#b76e79" />
+                <span style={{ fontSize: '0.85rem', fontWeight: '600', letterSpacing: '0.5px', textTransform: 'uppercase', color: '#9c8e82' }}>No Image Available</span>
+              </div>
+            )}
 
             {/* Wishlist Button */}
             <button
