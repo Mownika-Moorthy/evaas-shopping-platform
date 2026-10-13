@@ -1,6 +1,7 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { AuthContext } from './AuthContext';
+import { API_BASE } from '../config';
 
 export const CartContext = createContext();
 
@@ -13,7 +14,7 @@ export const CartProvider = ({ children }) => {
     if (!token) return;
     setLoading(true);
     try {
-      const { data } = await axios.get('http://localhost:5000/api/cart');
+      const { data } = await axios.get(`${API_BASE}/cart`);
       setCart(data);
     } catch (err) {
       console.error('Error fetching cart:', err);
@@ -36,7 +37,7 @@ export const CartProvider = ({ children }) => {
       return { success: false, message: 'Please log in to add items to cart.' };
     }
     try {
-      const { data } = await axios.post('http://localhost:5000/api/cart', {
+      const { data } = await axios.post(`${API_BASE}/cart`, {
         productId,
         quantity,
         size
@@ -53,7 +54,7 @@ export const CartProvider = ({ children }) => {
 
   const updateQuantity = async (productId, size, quantity) => {
     try {
-      const { data } = await axios.put('http://localhost:5000/api/cart', {
+      const { data } = await axios.put(`${API_BASE}/cart`, {
         productId,
         size,
         quantity
@@ -70,7 +71,7 @@ export const CartProvider = ({ children }) => {
 
   const removeFromCart = async (productId, size) => {
     try {
-      const { data } = await axios.delete('http://localhost:5000/api/cart', {
+      const { data } = await axios.delete(`${API_BASE}/cart`, {
         params: { productId, size }
       });
       setCart(data);
@@ -85,7 +86,7 @@ export const CartProvider = ({ children }) => {
 
   const clearCart = async () => {
     try {
-      const { data } = await axios.delete('http://localhost:5000/api/cart/clear');
+      const { data } = await axios.delete(`${API_BASE}/cart/clear`);
       setCart(data.cart || { items: [], totalPrice: 0 });
       return { success: true };
     } catch (err) {

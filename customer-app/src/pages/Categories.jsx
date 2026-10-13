@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Sparkles } from 'lucide-react';
 import { getActiveCategories } from '../services/categoryService';
+import { API_URL } from '../config';
 
 const Categories = () => {
   const [categoriesList, setCategoriesList] = useState([]);
@@ -53,7 +54,7 @@ const Categories = () => {
             return {
               name: cat.name,
               description: cat.description || fallback.description || 'Exclusive curated collection from Evaas.',
-              image: cat.image ? (cat.image.startsWith('http') ? cat.image : `http://localhost:5000${cat.image}`) : (fallback.image || 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=80&w=600')
+              image: cat.image ? (cat.image.startsWith('http') ? cat.image : `${API_URL}${cat.image}`) : (fallback.image || 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=80&w=600')
             };
           });
           setCategoriesList(mapped);

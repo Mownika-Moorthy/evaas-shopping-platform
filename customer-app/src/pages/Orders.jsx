@@ -9,7 +9,9 @@ import {
   Star, X, Check, Edit3, MessageSquare
 } from 'lucide-react';
 
-const BACKEND_URL = 'http://localhost:5000';
+import { API_URL } from '../config';
+
+const BACKEND_URL = API_URL;
 
 // ── Order status steps ─────────────────────────────────────────────────────────
 const TIMELINE_STEPS = [

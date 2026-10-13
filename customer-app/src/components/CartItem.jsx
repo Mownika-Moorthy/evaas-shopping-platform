@@ -1,8 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Trash2 } from 'lucide-react';
+import { API_URL } from '../config';
 
-const CartItem = ({ item, onUpdateQty, onRemove, backendUrl = 'http://localhost:5000' }) => {
+const CartItem = ({ item, onUpdateQty, onRemove, backendUrl = API_URL }) => {
   const product = item.productId;
   if (!product) return null;
 

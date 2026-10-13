@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect } from 'react';
 import axios from 'axios';
+import { API_BASE } from '../config';
 
 export const AdminAuthContext = createContext();
 
@@ -36,7 +37,7 @@ export const AdminAuthProvider = ({ children }) => {
           setAdmin(parsed);
         }
 
-        const { data } = await axios.get('http://localhost:5000/api/auth/profile', {
+        const { data } = await axios.get(`${API_BASE}/auth/profile`, {
           headers: { Authorization: `Bearer ${token}` }
         });
 
@@ -61,7 +62,7 @@ export const AdminAuthProvider = ({ children }) => {
   const adminLogin = async (email, password) => {
     setLoading(true);
     try {
-      const { data } = await axios.post('http://localhost:5000/api/auth/admin-login', { email, password });
+      const { data } = await axios.post(`${API_BASE}/auth/admin-login`, { email, password });
       
       // If 2FA OTP is required (Step 1)
       if (data.requireOtp) {
@@ -99,7 +100,7 @@ export const AdminAuthProvider = ({ children }) => {
   const verifyOtp = async (email, otp) => {
     setLoading(true);
     try {
-      const { data } = await axios.post('http://localhost:5000/api/auth/admin-verify-otp', { email, otp });
+      const { data } = await axios.post(`${API_BASE}/auth/admin-verify-otp`, { email, otp });
       if (data.role !== 'admin') {
         return {
           success: false,
@@ -123,7 +124,7 @@ export const AdminAuthProvider = ({ children }) => {
 
   const resendOtp = async (email) => {
     try {
-      const { data } = await axios.post('http://localhost:5000/api/auth/admin-resend-otp', { email });
+      const { data } = await axios.post(`${API_BASE}/auth/admin-resend-otp`, { email });
       return {
         success: true,
         message: data.message,
@@ -146,7 +147,7 @@ export const AdminAuthProvider = ({ children }) => {
 
   const updateProfile = async (profileData) => {
     try {
-      const { data } = await axios.put('http://localhost:5000/api/auth/profile', profileData, {
+      const { data } = await axios.put(`${API_BASE}/auth/profile`, profileData, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setAdmin(data);

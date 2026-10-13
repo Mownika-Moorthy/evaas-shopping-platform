@@ -5,13 +5,14 @@ import { CartContext } from '../context/CartContext';
 import { WishlistContext } from '../context/WishlistContext';
 import { useFestival } from '../context/FestivalContext';
 import { useNotification } from '../context/NotificationContext';
+import { API_URL } from '../config';
 
 const ProductCard = ({ product }) => {
   const { addToCart } = useContext(CartContext);
   const { toggleWishlist, isInWishlist } = useContext(WishlistContext);
   const { computePrice, activeSale } = useFestival();
   const { showSuccess, showError, showWarning } = useNotification();
-  const backendUrl = 'http://localhost:5000';
+  const backendUrl = API_URL;
 
   const imageUrl = product.images && product.images.length > 0
     ? `${backendUrl}${product.images[0]}`

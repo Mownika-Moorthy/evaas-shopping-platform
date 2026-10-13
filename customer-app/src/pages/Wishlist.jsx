@@ -4,12 +4,13 @@ import { WishlistContext } from '../context/WishlistContext';
 import { CartContext } from '../context/CartContext';
 import { useNotification } from '../context/NotificationContext';
 import { Heart, ShoppingBag, Trash2, ArrowRight } from 'lucide-react';
+import { API_URL } from '../config';
 
 const Wishlist = () => {
   const { wishlist, removeFromWishlist, clearWishlist } = useContext(WishlistContext);
   const { addToCart } = useContext(CartContext);
   const { showSuccess, showError, showWarning } = useNotification();
-  const backendUrl = 'http://localhost:5000';
+  const backendUrl = API_URL;
 
   const formatPrice = (p) => `₹${Number(p).toLocaleString('en-IN')}`;
 

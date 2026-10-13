@@ -9,6 +9,7 @@ import { Star, ShoppingBag, CreditCard, ChevronRight, Check, Heart, ArrowLeft, R
 import SizeChartModal from '../components/SizeChartModal';
 import { useFestival } from '../context/FestivalContext';
 import { useNotification } from '../context/NotificationContext';
+import { API_URL } from '../config';
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -43,7 +44,7 @@ const ProductDetails = () => {
   // Size chart modal
   const [showSizeChart, setShowSizeChart] = useState(false);
 
-  const backendUrl = 'http://localhost:5000';
+  const backendUrl = API_URL;
 
   const fetchProductDetails = async () => {
     try {

@@ -6,6 +6,7 @@ import { getActiveCategories } from '../services/categoryService';
 import ProductCard from '../components/ProductCard';
 import { useFestival } from '../context/FestivalContext';
 import heroImage from '../assets/images/image.png';
+import { API_URL } from '../config';
 
 const Home = () => {
   const [featuredProducts, setFeaturedProducts] = useState([]);
@@ -37,7 +38,7 @@ const Home = () => {
 
           const mappedCats = (catData || []).map(cat => ({
             name: cat.name,
-            image: cat.image ? (cat.image.startsWith('http') ? cat.image : `http://localhost:5000${cat.image}`) : (categoryImageMap[cat.name] || 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=80&w=250')
+            image: cat.image ? (cat.image.startsWith('http') ? cat.image : `${API_URL}${cat.image}`) : (categoryImageMap[cat.name] || 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=80&w=250')
           }));
           setCategories(mappedCats);
         }

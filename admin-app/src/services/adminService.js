@@ -1,4 +1,5 @@
 import api from './api';
+import { API_BASE } from '../config';
 
 // ── Dashboard ─────────────────────────────────────────────────────────────────
 export const getEnhancedDashboard = async () => {
@@ -58,7 +59,7 @@ export const getSalesReport = async (params = {}) => {
 export const exportReportPDF = (params = {}) => {
   const token = localStorage.getItem('admin_token') || localStorage.getItem('token');
   const query = new URLSearchParams(params).toString();
-  const url = `http://localhost:5000/api/admin/reports/export/pdf?${query}`;
+  const url = `${API_BASE}/admin/reports/export/pdf?${query}`;
   fetch(url, { headers: { Authorization: `Bearer ${token}` } })
     .then(res => res.blob())
     .then(blob => {
@@ -77,7 +78,7 @@ export const exportReportPDF = (params = {}) => {
 export const exportReportExcel = (params = {}) => {
   const token = localStorage.getItem('admin_token') || localStorage.getItem('token');
   const query = new URLSearchParams(params).toString();
-  const url = `http://localhost:5000/api/admin/reports/export/excel?${query}`;
+  const url = `${API_BASE}/admin/reports/export/excel?${query}`;
   fetch(url, { headers: { Authorization: `Bearer ${token}` } })
     .then(res => res.blob())
     .then(blob => {

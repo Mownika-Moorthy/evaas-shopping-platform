@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect } from 'react';
 import axios from 'axios';
+import { API_BASE } from '../config';
 
 export const AuthContext = createContext();
 
@@ -39,7 +40,7 @@ export const AuthProvider = ({ children }) => {
         }
         
         // Fetch fresh profile from backend
-        const { data } = await axios.get('http://localhost:5000/api/auth/profile');
+        const { data } = await axios.get(`${API_BASE}/auth/profile`);
         if (data.role === 'admin') {
           logout();
           return;
@@ -60,7 +61,7 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     setLoading(true);
     try {
-      const { data } = await axios.post('http://localhost:5000/api/auth/login', { email, password });
+      const { data } = await axios.post(`${API_BASE}/auth/login`, { email, password });
       if (data.role === 'admin') {
         return {
           success: false,
@@ -84,7 +85,7 @@ export const AuthProvider = ({ children }) => {
   const register = async (userData) => {
     setLoading(true);
     try {
-      const { data } = await axios.post('http://localhost:5000/api/auth/register', userData);
+      const { data } = await axios.post(`${API_BASE}/auth/register`, userData);
       setToken(data.token);
       setUser(data);
       localStorage.setItem('user', JSON.stringify(data));
@@ -108,7 +109,7 @@ export const AuthProvider = ({ children }) => {
 
   const updateProfile = async (profileData) => {
     try {
-      const { data } = await axios.put('http://localhost:5000/api/auth/profile', profileData);
+      const { data } = await axios.put(`${API_BASE}/auth/profile`, profileData);
       setUser(data);
       if (data.token) {
         setToken(data.token);
@@ -126,7 +127,7 @@ export const AuthProvider = ({ children }) => {
   const googleLogin = async (accessToken, userInfo) => {
     setLoading(true);
     try {
-      const { data } = await axios.post('http://localhost:5000/api/auth/google', {
+      const { data } = await axios.post(`${API_BASE}/auth/google`, {
         accessToken,
         userInfo
       });

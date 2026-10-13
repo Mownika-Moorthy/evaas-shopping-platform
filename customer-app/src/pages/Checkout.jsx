@@ -10,7 +10,9 @@ import {
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
-const BACKEND_URL = 'http://localhost:5000';
+import { API_URL } from '../config';
+
+const BACKEND_URL = API_URL;
 
 const Checkout = () => {
   const { user } = useContext(AuthContext);

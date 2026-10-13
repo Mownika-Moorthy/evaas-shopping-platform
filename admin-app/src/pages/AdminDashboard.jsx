@@ -19,8 +19,9 @@ import LeastSellingTab from '../components/LeastSellingTab';
 import LowStockTab    from '../components/LowStockTab';
 import FestivalSaleTab from '../components/FestivalSaleTab';
 import SettingsTab    from '../components/SettingsTab';
+import { API_URL } from '../config';
 
-const BACKEND_URL = 'http://localhost:5000';
+const BACKEND_URL = API_URL;
 
 const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState('overview');

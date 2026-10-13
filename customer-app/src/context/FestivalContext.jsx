@@ -10,8 +10,9 @@
  */
 
 import React, { createContext, useContext, useEffect, useState, useCallback } from 'react';
+import { API_URL } from '../config';
 
-const BACKEND_URL = 'http://localhost:5000';
+const BACKEND_URL = API_URL;
 const POLL_INTERVAL = 5 * 60 * 1000; // 5 minutes
 
 export const FestivalContext = createContext(null);
