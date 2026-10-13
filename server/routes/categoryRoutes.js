@@ -15,11 +15,18 @@ import { adminOnly } from '../middleware/adminMiddleware.js';
 const router = express.Router();
 
 // Setup category image upload directory
-const uploadDir = './uploads/categories';
+import { fileURLToPath } from 'url';
+
+// Keep your existing express, multer, path and fs imports.
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const uploadDir = path.resolve(__dirname, '../uploads/categories');
+
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
 }
-
 const storage = multer.diskStorage({
   destination(req, file, cb) {
     cb(null, uploadDir);
