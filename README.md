@@ -94,12 +94,6 @@ npm run dev
 
 Admin app runs at: **http://localhost:3001**
 
-#### Default Admin Credentials
-| Field    | Value                       |
-|----------|-----------------------------|
-| Email    | mownikamoorthy@gmail.com    |
-| Password | Mownika@06                  |
-
 #### Admin App Sections
 | Section          | Description                       |
 |------------------|-----------------------------------|
